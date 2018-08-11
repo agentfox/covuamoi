@@ -28,19 +28,10 @@ class Worker extends SCWorker {
     httpServer.on('request', app);
 
     var userNames = [];
-    // const checkLegalMove = (piece) => {
-    //   switch (piece.name) {
-    //     case '':
-          
-    //       break;
+    
+    const checkLegalMove = (piece) => {
       
-    //     default:
-    //       break;
-    //   }
-
-
-
-    // }
+    }
 
     /*
       In here we handle our incoming realtime connections and listen for events.
@@ -56,11 +47,13 @@ class Worker extends SCWorker {
       socket.on('validateUser', function (data, res) {
         // ...
         
-        if (userNames.indexOf(data) < 0 ) {
-          userNames.push(data.trim());
-          res(null, 'Success');
+        if (data) {
+          if(userNames.indexOf(data) < 0 )
+          {userNames.push(data.trim());
+          res(null, 'Success');}
+          else {res(null, 'Failed');}
         } else {
-          var err = 'Failed' ;
+          var err = 'Failed to connect' ;
           // As a convention, it may be a good idea to give each
           // error a name. That way on the client side you can quickly
           // check the error type with: if (err.name === 'MyCustomError')
