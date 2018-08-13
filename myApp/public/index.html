@@ -100,27 +100,22 @@
             <560) { newY=pos.y }else if(pos.y <=0 ) { newY=0 ; }else { newY=560; } if(pos.x>0&&pos.x
                 <560) { newX=pos.x }else if(pos.x <=0 ) { newX=0 ; }else { newX=560; } return { x: newX, y: newY }; } ;
                 
-            var Pieces = [{ name: 'WhiteKing', type: 'King', src: 'chess_pieces/wk.svg', x: 3, y: 7 }, { name: 'WhiteQueen', type: 'Queen',
-            src: 'chess_pieces/wq.svg', x: 4, y: 7 }, { name: 'WhiteBishopLeft', type: 'Bishop', src: 'chess_pieces/wb.svg', x: 2, y:
-            7 }, { name: 'WhiteBishopRight', type: 'Bishop', src: 'chess_pieces/wb.svg', x: 5, y: 7 }, { name: 'WhiteKnightLeft', type:
-            'Knight', src: 'chess_pieces/wn.svg', x: 1, y: 7 }, { name: 'WhiteKnightRight', type: 'Knight', src: 'chess_pieces/wn.svg',
-            x: 6, y: 7 }, { name: 'WhiteRookLeft', type: 'Rook', src: 'chess_pieces/wr.svg', x: 0, y: 7 }, { name: 'WhiteRookRight',
-            type: 'Rook', src: 'chess_pieces/wr.svg', x: 7, y: 7 }, { name: 'WhitePawn0', type: 'Pawn', src: 'chess_pieces/wp.svg', x:
-            0, y: 6 }, { name: 'WhitePawn1', type: 'Pawn', src: 'chess_pieces/wp.svg', x: 1, y: 6 }, { name: 'WhitePawn2', type: 'Pawn',
-            src: 'chess_pieces/wp.svg', x: 2, y: 6 }, { name: 'WhitePawn3', type: 'Pawn', src: 'chess_pieces/wp.svg', x: 3, y: 6 }, {
-            name: 'WhitePawn4', type: 'Pawn', src: 'chess_pieces/wp.svg', x: 4, y: 6 }, { name: 'WhitePawn5', type: 'Pawn', src: 'chess_pieces/wp.svg',
-            x: 5, y: 6 }, { name: 'WhitePawn6', type: 'Pawn', src: 'chess_pieces/wp.svg', x: 6, y: 6 }, { name: 'WhitePawn7', type: 'Pawn',
-            src: 'chess_pieces/wp.svg', x: 7, y: 6 }, { name: 'BlackKing', type: 'King', src: 'chess_pieces/bk.svg', x: 3, y: 0 }, {
-            name: 'BlackQueen', type: 'Queen', src: 'chess_pieces/bq.svg', x: 4, y: 0 }, { name: 'BlackBishopLeft', type: 'Bishop', src:
-            'chess_pieces/bb.svg', x: 2, y: 0 }, { name: 'BlackBishopRight', type: 'Bishop', src: 'chess_pieces/bb.svg', x: 5, y: 0 },
-            { name: 'BlackKnightLeft', type: 'Knight', src: 'chess_pieces/bn.svg', x: 1, y: 0 }, { name: 'BlackKnightRight', type: 'Knight',
-            src: 'chess_pieces/bn.svg', x: 6, y: 0 }, { name: 'BlackRookLeft', type: 'Rook', src: 'chess_pieces/br.svg', x: 0, y: 0 },
-            { name: 'BlackRookRight', type: 'Rook', src: 'chess_pieces/br.svg', x: 7, y: 0 }, { name: 'BlackPawn0', type: 'Pawn', src:
-            'chess_pieces/bp.svg', x: 0, y: 1 }, { name: 'BlackPawn1', type: 'Pawn', src: 'chess_pieces/bp.svg', x: 1, y: 1 }, { name:
-            'BlackPawn2', type: 'Pawn', src: 'chess_pieces/bp.svg', x: 2, y: 1 }, { name: 'BlackPawn3', type: 'Pawn', src: 'chess_pieces/bp.svg',
-            x: 3, y: 1 }, { name: 'BlackPawn4', type: 'Pawn', src: 'chess_pieces/bp.svg', x: 4, y: 1 }, { name: 'BlackPawn5', type: 'Pawn',
-            src: 'chess_pieces/bp.svg', x: 5, y: 1 }, { name: 'BlackPawn6', type: 'Pawn', src: 'chess_pieces/bp.svg', x: 6, y: 1 }, {
-            name: 'BlackPawn7', type: 'Pawn', src: 'chess_pieces/bp.svg', x: 7, y: 1 } ]
+            var Pieces=[{name:"WhiteKing",type:"King",color:"white",src:"chess_pieces/wk.svg",x:3,y:7},{name:"WhiteQueen",type:"Queen",color:"white",src:"chess_pieces/wq.svg",x:4,y:7},
+    {name:"WhiteBishopLeft",type:"Bishop",color:"white",src:"chess_pieces/wb.svg",x:2,y:7},{name:"WhiteBishopRight",type:"Bishop",color:"white",src:"chess_pieces/wb.svg",x:5,y:7},
+    {name:"WhiteKnightLeft",type:"Knight",color:"white",src:"chess_pieces/wn.svg",x:1,y:7},{name:"WhiteKnightRight",type:"Knight",color:"white",src:"chess_pieces/wn.svg",x:6,y:7},
+    {name:"WhiteRookLeft",type:"Rook",color:"white",src:"chess_pieces/wr.svg",x:0,y:7},{name:"WhiteRookRight",type:"Rook",color:"white",src:"chess_pieces/wr.svg",x:7,y:7},
+    {name:"WhitePawn0",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:0,y:6},{name:"WhitePawn1",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:1,y:6},
+    {name:"WhitePawn2",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:2,y:6},{name:"WhitePawn3",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:3,y:6},
+    {name:"WhitePawn4",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:4,y:6},{name:"WhitePawn5",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:5,y:6},
+    {name:"WhitePawn6",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:6,y:6},{name:"WhitePawn7",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:7,y:6},
+    {name:"BlackKing",type:"King",color:"black",src:"chess_pieces/bk.svg",x:3,y:0},{name:"BlackQueen",type:"Queen",color:"black",src:"chess_pieces/bq.svg",x:4,y:0},
+    {name:"BlackBishopLeft",type:"Bishop",color:"black",src:"chess_pieces/bb.svg",x:2,y:0},{name:"BlackBishopRight",type:"Bishop",color:"black",src:"chess_pieces/bb.svg",x:5,y:0},
+    {name:"BlackKnightLeft",type:"Knight",color:"black",src:"chess_pieces/bn.svg",x:1,y:0},{name:"BlackKnightRight",type:"Knight",color:"black",src:"chess_pieces/bn.svg",x:6,y:0},
+    {name:"BlackRookLeft",type:"Rook",color:"black",src:"chess_pieces/br.svg",x:0,y:0},{name:"BlackRookRight",type:"Rook",color:"black",src:"chess_pieces/br.svg",x:7,y:0},
+    {name:"BlackPawn0",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:0,y:1},{name:"BlackPawn1",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:1,y:1},
+    {name:"BlackPawn2",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:2,y:1},{name:"BlackPawn3",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:3,y:1},
+    {name:"BlackPawn4",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:4,y:1},{name:"BlackPawn5",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:5,y:1},
+    {name:"BlackPawn6",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:6,y:1},{name:"BlackPawn7",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:7,y:1}];
                     
             
                 for(let i in Pieces) {
@@ -159,8 +154,10 @@
                             Pieces[i].x = piece.attrs.x/80;
                             Pieces[i].y = piece.attrs.y/80-2;
                             // send the data of the move  and wait for validation ------------------------
-                            socket.emit('moved',{ name : Pieces[i].name, type:Pieces[i].type, x : piece.attrs.x , y : piece.attrs.y, prevX : prevPos.x,prevY : prevPos.y, all : Pieces },(err, resData) => {
-                              if (err) {
+                            socket.emit('moved',{ name : Pieces[i].name,color:Pieces[i].color, type:Pieces[i].type, x : piece.attrs.x/80 , y : piece.attrs.y/80, prevX : prevPos.x/80,prevY : prevPos.y/80 },(err, resData) => {
+                              if (err ) {
+                                  console.log('loi duong truyen');
+                                  
                                 piece.setPosition({
                                         x : prevPos.x,
                                         y : prevPos.y 
@@ -171,13 +168,30 @@
                                 layer.add(piece);
                                 // add the layer to the stage
                                 stage.add(layer);
-                              } else {
-                              // Event was emitted successfully
-                                console.log( piece.attrs.x,piece.attrs.y);
-                                // add the shape to the layer
-                                layer.add(piece);
-                                // add the layer to the stage
-                                stage.add(layer);
+                              } else { 
+                                    if(resData==="Valid") {
+                                        // Event was emitted successfully
+                                            console.log( piece.attrs.x,piece.attrs.y);
+                                            // add the shape to the layer
+                                            layer.add(piece);
+                                            // add the layer to the stage
+                                            stage.add(layer);
+                                            return;
+                                    }
+                                    else if (resData==="Invalid")
+                                      {console.log('khong dc di nhu the');
+                                            piece.setPosition({
+                                                    x : prevPos.x,
+                                                    y : prevPos.y 
+                                                    });
+                                            Pieces[i].x = piece.attrs.x/80;
+                                            Pieces[i].y = piece.attrs.y/80-2;
+                                            // add the shape to the layer
+                                            layer.add(piece);
+                                            // add the layer to the stage
+                                            stage.add(layer);}
+                                    else console.log(typeof resData);
+                                    
                               }
                               });
 
