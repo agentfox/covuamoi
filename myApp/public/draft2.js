@@ -16,6 +16,27 @@ var Pieces=[{name:"WhiteKing",type:"King",color:"white",src:"chess_pieces/wk.svg
 {name:"BlackPawn4",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:4,y:1},{name:"BlackPawn5",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:5,y:1},
 {name:"BlackPawn6",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:6,y:1},{name:"BlackPawn7",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:7,y:1}];
 
+const checkOriginPos = (piece) => {
+    if( Pieces.find((p)=> { 
+          if(p.name === piece.name && p.originX === piece.prevX && p.originY === piece.prevY ) 
+            {return true} 
+          }) ) {return true;}
+    return false;
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const checkLegalMove = (piece) => {
     if(piece.x >= 0 && piece.x <= 7 && piece.y >= 0 && piece.y <= 7  ) {
         if ( piece.type === 'Pawn' ) { // tot
