@@ -185,4 +185,83 @@ var checkKnightMoves=(knight)=> {
     })
     return moves;   
 }
+var checkBishopMoves = (bishop) => {
+    let moves = [];
+    let Bishop = originPieces[bishop.name];
+    for(let a=1; a < 7;a++) {
+        for(let b in boardCells) {
+            if( Math.abs(Math.abs(b.x)-Math.abs(Bishop.x))===a && Math.abs(Math.abs(b.y)-Math.abs(Bishop.y))===a ) {
+                if(b.data.color!== Bishop.color || b.data===0) {
+                    moves.push(b);
+                }
+            }
+        }
+    } 
+    return moves; 
+ }
 
+var checkQueenMoves = (queen)=> {
+    let moves = [];
+    let bishop = checkBishopMoves(queen);
+    let rook = checkRookMoves(queen);
+    moves = moves.concat(bishop,rook);
+    return moves;
+}
+var checkKingMoves = (king)=> {
+    let moves = [];
+    let King = originPieces[king.name]
+    for(let b in boardCells) {
+        if( Math.abs(Math.abs(b.x)-Math.abs(King.x))===a && Math.abs(Math.abs(b.y)-Math.abs(King.y))===a ) {
+            if(b.data.color!== King.color || b.data===0) {
+                moves.push(b);
+            }
+        }
+    };
+
+    // trai
+        let trai = boardCells[`C${King.x-1}${King.y}`];
+        if( trai.data.color && trai.data.color!==King.color) {
+            moves.push([trai.x,trai.y]);
+            break;
+        }
+        else if (trai.data===0) {
+            moves.push([trai.x,trai.y]);
+        }
+        else break;
+    
+     // phai
+        let phai = boardCells[`C${King.x+1}${King.y}`];
+        if(phai.data.color && phai.data.color!==King.color) {
+            moves.push([phai.x,phai.y]);
+            break;
+        }
+        else if (phai.data===0) {
+            moves.push([phai.x,phai.y]);
+        }
+        else break;
+    
+    // tren
+        let tren = boardCells[`C${King.x}${King.y-1}`];
+        if(tren.data.color && tren.data.color!==King.color) {
+            moves.push([tren.x,tren.y]);
+            break;
+        }
+        else if (tren.data===0) {
+            moves.push([tren.x,tren.y]);
+        }
+        else break;
+    
+     //duoi
+        let duoi = boardCells[`C${King.x}${King.y+1}`];
+        if(duoi.data.color && duoi.data.color!==King.color) {
+            moves.push([duoi.x,duoi.y]);
+            break;
+        }
+        else if (duoi.data===0) {
+            moves.push([duoi.x,duoi.y]);
+        }
+        else break;
+    
+        return moves;
+
+}
