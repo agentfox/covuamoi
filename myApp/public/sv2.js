@@ -165,4 +165,24 @@ var checkRookMoves = (rook) => {
     return moves;
 }
 
+var checkKnightMoves=(knight)=> {
+    let moves = [];
+    let Knight = originPieces[knight.name];
+    let rawMoves=[];
+    if(boardCells[`C${Knight.x-2}${Knight.y-1}`]) { rawMoves.push([Knight.x-2,Knight.y-1]);}
+    if(boardCells[`C${Knight.x+2}${Knight.y-1}`]) { rawMoves.push([Knight.x+2,Knight.y-1]);}
+    if(boardCells[`C${Knight.x-2}${Knight.y+1}`]) { rawMoves.push([Knight.x-2,Knight.y+1]);}
+    if(boardCells[`C${Knight.x+2}${Knight.y+1}`]) { rawMoves.push([Knight.x+2,Knight.y+1]);}
+    if(boardCells[`C${Knight.x+1}${Knight.y-2}`]) { rawMoves.push([Knight.x+1,Knight.y-2]);}
+    if(boardCells[`C${Knight.x+1}${Knight.y+2}`]) { rawMoves.push([Knight.x+1,Knight.y+2]);}
+    if(boardCells[`C${Knight.x-1}${Knight.y-2}`]) { rawMoves.push([Knight.x-1,Knight.y-2]);}
+    if(boardCells[`C${Knight.x-1}${Knight.y+2}`]) { rawMoves.push([Knight.x-1,Knight.y+2]);}
+
+    rawMoves.filter(k=> {
+        if(  boardCells[`C${k[0]}${k[1]}`].data.color==="black" || boardCells[`C${k[0]}${k[1]}`].data.color===0 ) {
+            moves.push(k);
+        }
+    })
+    return moves;   
+}
 
