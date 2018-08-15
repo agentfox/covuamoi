@@ -15,13 +15,41 @@ var originPieces = [{name:"WhiteKing",type:"King",color:"white",src:"chess_piece
 {name:"BlackPawn4",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",originX:4,originY:1,x:4,y:1},{name:"BlackPawn5",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",originX:5,originY:1,x:5,y:1},
 {name:"BlackPawn6",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",originX:6,originY:1,x:6,y:1},{name:"BlackPawn7",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",originX:7,originY:1,x:7,y:1}];
 
-var boardCells = [];                     // 64 board cells
+var boardCells = []; 
+var arrString='';                    // 64 board cells
 for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
         let a=[i,j];
         boardCells.push(a) ; 
     }  
 }
+
+// var boardCells = []; 
+// var arrString='';            // 64 board cells
+// var m=()=> {
+//         for (var i = 0; i < 8; i++) {
+//           for (var j = 0; j < 8; j++) {
+//               var a=[i,j];
+//               boardCells.push(a) ; 
+//             }  
+//         }
+//   }
+// m();
+// console.log(boardCells);
+// var n = ()=> {
+
+//   for(var c=0;c<boardCells.length;c++)
+//     {   
+//         var a = `[${boardCells[c][0]},${boardCells[c][1]}],`;
+        
+//         arrString=arrString.concat(a);
+//     }
+// console.log(arrString); 
+// }
+// n();
+
+
+
 const checkPawnOriginPos = (pawn) => {   // check if the pawn start moving from its original position
     if( originPieces.find((p)=> { 
           if(p.name === pawn.name && p.originX === pawn.prevX && p.originY === pawn.prevY ) 
