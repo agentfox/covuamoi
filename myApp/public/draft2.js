@@ -39,7 +39,7 @@ var abc = {
         type: 'Knight',
         color: 'white',
         src: 'chess_pieces/wn.svg',
-        originX: 3,
+        originX: 1,
         originY: 7,
         x: 1,
         y: 7
