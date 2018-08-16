@@ -313,3 +313,192 @@ var Cells = { "C00": { "x": 0, "y": 0, "data": { "name": "BlackRookLeft" } }, "C
  "C27": { "x": 2, "y": 7, "data": { "name": "WhiteBishopLeft" } }, "C37": { "x": 3, "y": 7, "data": { "name": "WhiteKnightLeft" } }, "C47": { "x": 4, "y": 7, "data": { "name": "WhiteQueen" } }, 
  "C57": { "x": 5, "y": 7, "data": { "name": "WhiteBishopRight" } }, "C67": { "x": 6, "y": 7, "data": { "name": "WhiteKnightRight" } }, "C77": { "x": 7, "y": 7, "data": { "name": "WhiteRookRight" } } };
  
+ window.onload = () => {
+
+    var socket = socketCluster.connect();
+
+      socket.on('error', function (err) {
+      console.log('loi r');
+      });
+
+      socket.on('connect', function () {
+          console.log('da vao roi');
+          socket.emit('test1',"works");
+          let btnPlay= document.getElementById('play');
+          btnPlay.onclick = ()=> {
+
+          var userName = document.getElementById("Player").value;
+          console.log(userName);
+          
+          socket.emit("validateUser", userName,(err, resData)=> {
+            if (err) {
+              console.log('loi ket noi')
+            } else {
+            // Event was emitted successfully
+              if(resData === 'Failed') {
+                  alert('Username is already taken. Try another.')
+              }
+              else {
+              console.log('success!')
+
+           // -------------------- Create the chess board --------------------
+          var width = window.innerWidth;
+          var height = window.innerHeight;
+          var stage = new Konva.Stage({
+              container: 'container',
+              width: width,
+              height: height
+          });
+          var layer = new Konva.Layer();
+          for (let i = 0; i <4 ; i++)
+          { 
+              for (let j = 0; j <4 ; j++)
+              { 
+              var rect1 = new Konva.Rect({
+                  x: i*160 ,
+                  y: j*160 ,
+                  width: 80,
+                  height: 80,
+                  fill: 'gray'
+              });
+              var rect2 = new Konva.Rect({
+                  x: i*160 + 80 ,
+                  y: j*160 + 80,
+                  width: 80,
+                  height: 80,
+                  fill: 'gray'
+              });
+      
+              // add the shape to the layer
+              layer.add(rect1);
+              layer.add(rect2);
+              // add the layer to the stage
+              stage.add(layer);
+              }
+          }
+          //-----------------------------------------------------------------
+      
+          // ---------------------Create the chess pieces ------------------- 
+          var bound = function(pos) { var newY,newX; if(pos.y>0&&pos.y
+          <560) { newY=pos.y }else if(pos.y <=0 ) { newY=0 ; }else { newY=560; } if(pos.x>0&&pos.x
+              <560) { newX=pos.x }else if(pos.x <=0 ) { newX=0 ; }else { newX=560; } return { x: newX, y: newY }; } ;
+              
+          var Pieces=[{name:"WhiteKing",type:"King",color:"white",src:"chess_pieces/wk.svg",x:3,y:7},{name:"WhiteQueen",type:"Queen",color:"white",src:"chess_pieces/wq.svg",x:4,y:7},
+  {name:"WhiteBishopLeft",type:"Bishop",color:"white",src:"chess_pieces/wb.svg",x:2,y:7},{name:"WhiteBishopRight",type:"Bishop",color:"white",src:"chess_pieces/wb.svg",x:5,y:7},
+  {name:"WhiteKnightLeft",type:"Knight",color:"white",src:"chess_pieces/wn.svg",x:1,y:7},{name:"WhiteKnightRight",type:"Knight",color:"white",src:"chess_pieces/wn.svg",x:6,y:7},
+  {name:"WhiteRookLeft",type:"Rook",color:"white",src:"chess_pieces/wr.svg",x:0,y:7},{name:"WhiteRookRight",type:"Rook",color:"white",src:"chess_pieces/wr.svg",x:7,y:7},
+  {name:"WhitePawn0",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:0,y:6},{name:"WhitePawn1",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:1,y:6},
+  {name:"WhitePawn2",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:2,y:6},{name:"WhitePawn3",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:3,y:6},
+  {name:"WhitePawn4",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:4,y:6},{name:"WhitePawn5",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:5,y:6},
+  {name:"WhitePawn6",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:6,y:6},{name:"WhitePawn7",type:"Pawn",color:"white",src:"chess_pieces/wp.svg",x:7,y:6},
+  {name:"BlackKing",type:"King",color:"black",src:"chess_pieces/bk.svg",x:3,y:0},{name:"BlackQueen",type:"Queen",color:"black",src:"chess_pieces/bq.svg",x:4,y:0},
+  {name:"BlackBishopLeft",type:"Bishop",color:"black",src:"chess_pieces/bb.svg",x:2,y:0},{name:"BlackBishopRight",type:"Bishop",color:"black",src:"chess_pieces/bb.svg",x:5,y:0},
+  {name:"BlackKnightLeft",type:"Knight",color:"black",src:"chess_pieces/bn.svg",x:1,y:0},{name:"BlackKnightRight",type:"Knight",color:"black",src:"chess_pieces/bn.svg",x:6,y:0},
+  {name:"BlackRookLeft",type:"Rook",color:"black",src:"chess_pieces/br.svg",x:0,y:0},{name:"BlackRookRight",type:"Rook",color:"black",src:"chess_pieces/br.svg",x:7,y:0},
+  {name:"BlackPawn0",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:0,y:1},{name:"BlackPawn1",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:1,y:1},
+  {name:"BlackPawn2",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:2,y:1},{name:"BlackPawn3",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:3,y:1},
+  {name:"BlackPawn4",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:4,y:1},{name:"BlackPawn5",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:5,y:1},
+  {name:"BlackPawn6",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:6,y:1},{name:"BlackPawn7",type:"Pawn",color:"black",src:"chess_pieces/bp.svg",x:7,y:1}];
+                  
+          
+              for(let i in Pieces) {
+                  let imgTest = new Image();
+                  imgTest.src = Pieces[i].src;
+                  imgTest.onload = function() {
+                  
+                      let piece = new Konva.Image({
+                          x: Pieces[i].x*80,
+                          y: Pieces[i].y*80,
+                          image: imgTest,
+                          width: 80,
+                          height: 80,
+                          draggable: true,
+                          dragBoundFunc: function(pos) {
+                          return bound(pos)
+                          }
+                      });
+
+                      let prevPos ;
+                      piece.on('dragstart', function() {
+                          prevPos = {...{
+                           x : Math.floor(0.5+(piece.attrs.x-0)/80)*80,
+                           y : Math.floor(0.5+piece.attrs.y/80)*80
+                          }
+                          } 
+                          console.log(prevPos);
+                      });
+                       
+                      piece.on('dragend', function() {
+                          
+                          piece.setPosition({
+                              x : Math.floor(0.5+(piece.attrs.x-0)/80)*80,
+                              y : Math.floor(0.5+piece.attrs.y/80)*80 
+                          });
+                          Pieces[i].x = piece.attrs.x/80;
+                          Pieces[i].y = piece.attrs.y/80-2;
+                          // send the data of the move  and wait for validation ------------------------
+                          socket.emit('moved',{ name : Pieces[i].name,color:Pieces[i].color, type:Pieces[i].type, x : piece.attrs.x/80 , y : piece.attrs.y/80, prevX : prevPos.x/80,prevY : prevPos.y/80 },(err, resData) => {
+                            if (err ) {
+                                console.log('loi duong truyen');
+                                
+                              piece.setPosition({
+                                      x : prevPos.x,
+                                      y : prevPos.y 
+                                      });
+                              Pieces[i].x = piece.attrs.x/80;
+                              Pieces[i].y = piece.attrs.y/80-2;
+                              // add the shape to the layer
+                              layer.add(piece);
+                              // add the layer to the stage
+                              stage.add(layer);
+                            } else { 
+                                  if(resData==="Valid") {
+                                      // Event was emitted successfully
+                                          console.log( piece.attrs.x,piece.attrs.y);
+                                          // add the shape to the layer
+                                          layer.add(piece);
+                                          // add the layer to the stage
+                                          stage.add(layer);
+                                          return;
+                                  }
+                                  else if (resData==="Invalid")
+                                    {console.log('khong dc di nhu the');
+                                          piece.setPosition({
+                                                  x : prevPos.x,
+                                                  y : prevPos.y 
+                                                  });
+                                          Pieces[i].x = piece.attrs.x/80;
+                                          Pieces[i].y = piece.attrs.y/80-2;
+                                          // add the shape to the layer
+                                          layer.add(piece);
+                                          // add the layer to the stage
+                                          stage.add(layer);}
+                                  else console.log(typeof resData);
+                                  
+                            }
+                            });
+
+                          // ----------------------------------------------------------
+
+                      });
+                      // add the shape to the layer
+                      layer.add(piece);
+                      // add the layer to the stage
+                      stage.add(layer);
+                  };
+                  
+                  }
+
+
+
+            }
+          }
+          })
+        }
+
+      })      
+        
+
+     
+        
+      } //window onload

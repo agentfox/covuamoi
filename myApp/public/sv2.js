@@ -211,8 +211,8 @@ var checkKingMoves = (king)=> {
     let moves = [];
     let King = originPieces[king.name]
     for(let b in boardCells) {
-        if( Math.abs(Math.abs(b.x)-Math.abs(King.x))===a && Math.abs(Math.abs(b.y)-Math.abs(King.y))===a ) {
-            if(b.data.color!== King.color || b.data===0) {
+        if( Math.abs(b.x-King.x)===1 && Math.abs(b.y-King.y)===1 ) {
+            if(b.data.color && b.data.color!== King.color || b.data===0) {
                 moves.push(b);
             }
         }
@@ -220,47 +220,31 @@ var checkKingMoves = (king)=> {
 
     // trai
         let trai = boardCells[`C${King.x-1}${King.y}`];
-        if( trai.data.color && trai.data.color!==King.color) {
+        if( trai.data.color && trai.data.color!==King.color|| trai.data===0) {
             moves.push([trai.x,trai.y]);
-            break;
+            
         }
-        else if (trai.data===0) {
-            moves.push([trai.x,trai.y]);
-        }
-        else break;
     
      // phai
         let phai = boardCells[`C${King.x+1}${King.y}`];
-        if(phai.data.color && phai.data.color!==King.color) {
+        if(phai.data.color && phai.data.color!==King.color || phai.data===0) {
             moves.push([phai.x,phai.y]);
-            break;
+            
         }
-        else if (phai.data===0) {
-            moves.push([phai.x,phai.y]);
-        }
-        else break;
     
     // tren
         let tren = boardCells[`C${King.x}${King.y-1}`];
-        if(tren.data.color && tren.data.color!==King.color) {
+        if(tren.data.color && tren.data.color!==King.color || tren.data===0) {
             moves.push([tren.x,tren.y]);
-            break;
+            
         }
-        else if (tren.data===0) {
-            moves.push([tren.x,tren.y]);
-        }
-        else break;
     
      //duoi
         let duoi = boardCells[`C${King.x}${King.y+1}`];
-        if(duoi.data.color && duoi.data.color!==King.color) {
+        if(duoi.data.color && duoi.data.color!==King.color || duoi.data===0) {
             moves.push([duoi.x,duoi.y]);
-            break;
+            
         }
-        else if (duoi.data===0) {
-            moves.push([duoi.x,duoi.y]);
-        }
-        else break;
     
         return moves;
 
