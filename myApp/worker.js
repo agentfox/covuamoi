@@ -7,7 +7,7 @@ var healthChecker = require('sc-framework-health-check');
 
 class Worker extends SCWorker {
   run() {
-    // console.log('   >> Worker PID:', process.pid);
+    console.log('   >> Worker PID:', process.pid);
     var environment = this.options.environment;
 
     var app = express();
@@ -36,8 +36,6 @@ class Worker extends SCWorker {
       In here we handle our incoming realtime connections and listen for events.-----------------------------------------------
     */
     scServer.on('connection', function (socket) {
-                console.log('abc');
-
 
                 let moveCounter = 0;
                 // LOGIC start from here -----------------------------------------------------------------------------------------
@@ -93,7 +91,7 @@ class Worker extends SCWorker {
                 C76: { x: 7, y: 6, data: { color:"white",name: "WhitePawn7" } }, C07: { x: 0, y: 7, data: { color:"white",name: "WhiteRookLeft" } }, C17: { x: 1, y: 7, data: { color:"white",name: "WhiteKnightLeft" } }, 
                 C27: { x: 2, y: 7, data: { color:"white",name: "WhiteBishopLeft" } }, C37: { x: 3, y: 7, data: { color:"white",name: "WhiteKing" } }, C47: { x: 4, y: 7, data: { color:"white",name: "WhiteQueen" } }, 
                 C57: { x: 5, y: 7, data: { color:"white",name: "WhiteBishopRight" } }, C67: { x: 6, y: 7, data: { color:"white",name: "WhiteKnightRight" } }, C77: { x: 7, y: 7, data: { color:"white",name: "WhiteRookRight" } } };
-                // trong data phai truyen vao object co vi tri ten mau
+                // trong data phai truyen vao object co vi tri ,ten ,mau
                 
                 // pawn { name : "" }
             
@@ -109,7 +107,6 @@ class Worker extends SCWorker {
                     let Pawn = originPieces[pawn.name];
                     if(Pawn.y!==0 && Pawn.y!==7) {
                         if(Pawn.x===Pawn.originX && Pawn.y===Pawn.originY) {  // tot o vi tri ban dau
-                            console.log('origin');
                             if(Pawn.color==="white") {
                                 let trai = boardCells[`C${Pawn.x-1}${Pawn.y-1}`];
                                 let giua = boardCells[`C${Pawn.x  }${Pawn.y-1}`];
@@ -151,7 +148,6 @@ class Worker extends SCWorker {
                             }
                         }
                         else {
-                            console.log('not origin');
                             if(Pawn.color==="white") {
                                 let trai = boardCells[`C${Pawn.x-1}${Pawn.y-1}`];
                                 let giua = boardCells[`C${Pawn.x  }${Pawn.y-1}`];
@@ -217,7 +213,6 @@ class Worker extends SCWorker {
                         for(let m = Rook.y-1; m>=0;m = m-1 ) { // tren
 
                             let tren = boardCells[`C${Rook.x}${m}`];
-                            console.log(tren);
                             if( tren.data.color  &&  tren.data.color!==Rook.color) {
                                 moves.push([tren.x,tren.y]);
                                 break;
@@ -230,18 +225,13 @@ class Worker extends SCWorker {
                         for(let m = Rook.y+1; m < 8; m++ ) { //duoi
                             let duoi = boardCells[`C${Rook.x}${m}`];
                             if( duoi.data.color && duoi.data.color!==Rook.color) {
-                                console.log('if')
                                 moves.push([duoi.x,duoi.y]);
                                 break;
                             }
                             else if (duoi && duoi.data===0) {
-                                console.log('else if')
                                 moves.push([duoi.x,duoi.y]);
                             }
-                            else {
-                                console.log('else');
-                                
-                                break;}
+                            else {break;}
                         }
                             
                     return moves;
@@ -259,8 +249,6 @@ class Worker extends SCWorker {
                     if(boardCells[`C${Knight.x+1}${Knight.y+2}`]) { rawMoves.push([Knight.x+1,Knight.y+2]);}
                     if(boardCells[`C${Knight.x-1}${Knight.y-2}`]) { rawMoves.push([Knight.x-1,Knight.y-2]);}
                     if(boardCells[`C${Knight.x-1}${Knight.y+2}`]) { rawMoves.push([Knight.x-1,Knight.y+2]);}
-                        console.log(rawMoves);
-                        
                     rawMoves.filter(k=> {
                         if(  boardCells[`C${k[0]}${k[1]}`].data.color!==Knight.color || boardCells[`C${k[0]}${k[1]}`].data===0 ) {
                             moves.push(k);
@@ -268,86 +256,49 @@ class Worker extends SCWorker {
                     })
                     return moves;   
                 }
-                var checkBishopMoves = (bishop) => {
+                var checkBishopMoves = (bishop,n) => {
                     let moves = [];
                     let Bishop = originPieces[bishop.name];
-                    let br ;
-                    
-                        
-                            for(let b in boardCells) {
-                                        for(let a=1; a <= 7;a++) {
-                                           let br;
-                                            if( boardCells[b].x-Bishop.x ===a && boardCells[b].y-Bishop.y===a ) {
-                                                        
-                                                            if(boardCells[b].data.color!== Bishop.color ) {
-                                                                moves.push([boardCells[b].x,boardCells[b].y]);
-                                                                br = true;
-                                                            }
-                                                            else if(boardCells[b].data===0) {
-                                                                moves.push([boardCells[b].x,boardCells[b].y]);
-                                                            }
-                                                            
-                                                    }
-                                                    if(br===true) {
-                                                        break;
-                                                    }
-                                                }
-                                        for(let a=1; a <= 7;a++) {
-                                           let br;
-                                            if( boardCells[b].x-Bishop.x ===a && boardCells[b].y-Bishop.y===a ) {
-                                                
-                                                    if(boardCells[b].data.color!== Bishop.color ) {
-                                                        moves.push([boardCells[b].x,boardCells[b].y]);
-                                                        br = true;
-                                                    }
-                                                    else if(boardCells[b].data===0) {
-                                                        moves.push([boardCells[b].x,boardCells[b].y]);
-                                                    }
-                                                    
-                                            }
-                                            if(br===true) {
-                                                break;
-                                            }
-                                        }
-                                        for(let a=1; a <= 7;a++) {
-                                           let br;
-                                            if( boardCells[b].x-Bishop.x ===a && boardCells[b].y-Bishop.y===a ) {
-                                                
-                                                    if(boardCells[b].data.color!== Bishop.color ) {
-                                                        moves.push([boardCells[b].x,boardCells[b].y]);
-                                                        br = true;
-                                                    }
-                                                    else if(boardCells[b].data===0) {
-                                                        moves.push([boardCells[b].x,boardCells[b].y]);
-                                                    }
-                                                    
-                                            }
-                                            if(br===true) {
-                                                break;
-                                            }
-                                        }
-                                        for(let a=1; a <= 7;a++) {
-                                           let br;
-                                            if( boardCells[b].x-Bishop.x ===a && boardCells[b].y-Bishop.y===a ) {
-                                                
-                                                    if(boardCells[b].data.color!== Bishop.color ) {
-                                                        moves.push([boardCells[b].x,boardCells[b].y]);
-                                                        br = true;
-                                                    }
-                                                    else if(boardCells[b].data===0) {
-                                                        moves.push([boardCells[b].x,boardCells[b].y]);
-                                                    }
-                                                    
-                                            }
-                                            if(br===true) {
-                                                break;
-                                            }
-                                        }
-                                            
-                                    
-                            } // for b in boardCells
-                        
-                    
+                    if (n === undefined) {
+                        n = 7;
+                    } 
+                            for(let a=1; a <= n;a++) {
+                                    let cell4h30 = boardCells[`C${Bishop.x+a}${Bishop.y+a}`] ;
+                                        if (cell4h30 && cell4h30.data===0) { 
+                                            moves.push([Bishop.x+a,Bishop.y+a])}
+                                        else if (cell4h30 && cell4h30.data.color && cell4h30.data.color=== Bishop.color)    
+                                            {break;   }
+                                        else if (cell4h30 && cell4h30.data.color && cell4h30.data.color!== Bishop.color)    
+                                            {moves.push([Bishop.x+a,Bishop.y+a]) ; break;   }
+                            }
+                            for(let a=1; a <= n;a++) {
+                                let cell7h30 = boardCells[`C${Bishop.x-a}${Bishop.y+a}`] ;
+                                    if (cell7h30 && cell7h30.data===0) { 
+                                        moves.push([Bishop.x-a,Bishop.y+a])}
+                                    else if (cell7h30 && cell7h30.data.color && cell7h30.data.color=== Bishop.color)    
+                                        {break;   }
+                                    else if (cell7h30 && cell7h30.data.color && cell7h30.data.color!== Bishop.color)    
+                                        {moves.push([Bishop.x-a,Bishop.y+a]) ; break;   }
+                            }
+                            for(let a=1; a <= n;a++) {
+                                let cell1h30 = boardCells[`C${Bishop.x+a}${Bishop.y-a}`] ;
+                                    if (cell1h30 && cell1h30.data===0) { 
+                                        moves.push([Bishop.x+a,Bishop.y-a])}
+                                    else if (cell1h30 && cell1h30.data.color && cell1h30.data.color=== Bishop.color)    
+                                        {break;   }
+                                    else if (cell1h30 && cell1h30.data.color && cell1h30.data.color!== Bishop.color)    
+                                        {moves.push([Bishop.x+a,Bishop.y-a]) ; break;   }
+                            }
+                            for(let a=1; a <= n;a++) {
+                                let cell10h30 = boardCells[`C${Bishop.x-a}${Bishop.y-a}`] ;
+                                    if (cell10h30 && cell10h30.data===0) { 
+                                        moves.push([Bishop.x-a,Bishop.y-a])}
+                                    else if (cell10h30 && cell10h30.data.color && cell10h30.data.color=== Bishop.color)    
+                                        {break;   }
+                                    else if (cell10h30 && cell10h30.data.color && cell10h30.data.color!== Bishop.color)    
+                                        {moves.push([Bishop.x-a,Bishop.y-a]) ; break;   }
+                            }
+      
                     return moves; 
                 }
                 
@@ -361,13 +312,7 @@ class Worker extends SCWorker {
                 var checkKingMoves = (king)=> {
                     let moves = [];
                     let King = originPieces[king.name]
-                    for(let b in boardCells) {
-                        if( Math.abs(b.x-King.x)===1 && Math.abs(b.y-King.y)===1 ) {
-                            if(b.data.color && b.data.color!== King.color || b.data===0) {
-                                moves.push(b);
-                            }
-                        }
-                    };
+                    moves = checkBishopMoves(king,1);
                 
                     // trai
                         let trai = boardCells[`C${King.x-1}${King.y}`];
@@ -402,28 +347,22 @@ class Worker extends SCWorker {
                     let moves=[];
                     if(originPieces[data.name].type==="Pawn") {
                         moves=checkPawnMoves(data);
-                        console.log(originPieces[data.name].type);
                         
                     }
                     else if(originPieces[data.name].type==="Rook") {
                         moves=checkRookMoves(data);
-                        console.log(originPieces[data.name].type);
                     }
                     else if(originPieces[data.name].type==="Knight") {
                         moves=checkKnightMoves(data);
-                        console.log(originPieces[data.name].type);
                     }
                     else if(originPieces[data.name].type==="Bishop") {
                         moves=checkBishopMoves(data);
-                        console.log(originPieces[data.name].type);
                     }
                     else if(originPieces[data.name].type==="Queen") {
                         moves=checkQueenMoves(data);
-                        console.log(originPieces[data.name].type);
                     }
                     else if(originPieces[data.name].type==="King") {
                         moves=checkKingMoves(data);
-                        console.log(originPieces[data.name].type);
                     }
                     else {console.log("wrong name");
                     }
@@ -459,7 +398,6 @@ class Worker extends SCWorker {
                                 res(null, 'Success');
 
                                 socket.on('picked', function (data,res) {
-                                    console.log(data);
                                     if(data) {
                                     let a = possibleMoves(data);
                                     res(null,a);
@@ -471,7 +409,6 @@ class Worker extends SCWorker {
                                 });
                             
                                 socket.on('moved', function (data,res) {
-                                    console.log(data);
                                     if(data) {
                                     if (legalCheck(data)) {
                                         res(null, "Valid");
