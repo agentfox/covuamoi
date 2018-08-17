@@ -387,12 +387,19 @@ class Worker extends SCWorker {
 
 
                 socket.on('validateUser', function (data, res) {
-                    // ...
+
+                    // socket.on("logout", function () {
+                    //     userNames.splice(userNames.indexOf(data), 1);
+                    //     socket.broadcast.emit("danh-sach-dang-online",userNames);
                 
+                    // });
+                    // ...
+                    
                     if (data) {
                         if(userNames.indexOf(data) < 0 )
                         {       
                                 userNames.push(data.trim());
+                                socket.Username = data;
                                 makeNewGame();
                                 boardCells=originBoardCells;
                                 res(null, 'Success');
@@ -428,6 +435,8 @@ class Worker extends SCWorker {
                         var err = 'Failed to connect' ;
                         res(err); // Send back error
                     }
+
+                    
                 });
 
                     socket.on('disconnect', function () {

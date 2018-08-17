@@ -11,6 +11,19 @@
             padding: 0;
             overflow: hidden;
             background-color:#e0e0e0c9;
+            position: relative;
+
+        }
+        #leftPanel {
+          position: absolute;
+          padding: 0;
+          top: 30px;
+          left: 30px;
+          margin: 0;
+          height: 600px;
+          width: 200px;
+          text-align: center;
+        
         }
         #container {
           margin: 0 auto;
@@ -19,13 +32,32 @@
           height: 640px;
            width: 640px;
         }
+        #userTable {
+          margin: 0;
+          height: 90%;
+          width: 200px;
+          background-color: papayawhip;
+          display: flex;
+          justify-content: center;
+        }
     </style>
   </head>
   <body>
-    <form name="signinForm" >
-        <input id="Player"  name="YourName" type="text">
-        <input id="play" type="button" value="Play">
-      </form>
+    <div id="leftPanel" >
+        <form name="signinForm" >
+            <input id="Player"  name="YourName" type="text">
+            <input id="play" type="button" value="Play">
+          </form>
+        <div id ="userTable">
+          <div id="boxTittle"><h3>User Online</h3></div>
+          <div id="boxContent">
+
+
+                      
+            </div>
+        </div>
+    </div>
+    
     <div id="container">
       
     </div>
