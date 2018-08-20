@@ -3,6 +3,7 @@
   <head>
     <title>SocketCluster</title>
     <link href="//fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="/socketcluster.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/konva/2.2.1/konva.min.js"></script>
     <style>
@@ -11,19 +12,25 @@
             padding: 0;
             overflow: hidden;
             background-color:#e0e0e0c9;
-            position: relative;
+
 
         }
+        #wrapAll {
+          display: flex;
+          flex-flow: row nowrap;
+          
+        }
         #leftPanel {
-          position: absolute;
-          padding: 0;
-          top: 30px;
-          left: 30px;
-          margin: 0;
+          padding: 0px;
+          margin-left: 30px;
+          margin-top: 30px;
           height: 600px;
           width: 200px;
           text-align: center;
-        
+          border: 1px solid black;
+        }
+        #loginForm {
+          margin: 10px auto;
         }
         #container {
           margin: 0 auto;
@@ -38,29 +45,77 @@
           width: 200px;
           background-color: papayawhip;
           display: flex;
-          justify-content: center;
+          flex-flow: column wrap;
+        }
+        #listMessage {
+            height: 500px;
+            background-color: azure;
+            margin-bottom: 15px;
+            overflow: scroll;
+        }
+        #txtMessage {
+            background-color: #fffc42;
+            height: 40px;
+            width: 240px;
+        }
+        #sayHi {
+              text-align: left;
+          }
+        #rightPanel {
+            margin-right: 30px;
+            margin-top: 30px;
+            width: 250px;
+            height: 600px;
+            float: right;
+            background-color: #1d9ce5;
+        }
+        #boxTittle {
+          height: 40px;
+          width: 100%;
+          margin-bottom: 30px;
+          color: #1d9ce5;
+        }
+        .userOnline {
+          margin: 10px auto;
         }
     </style>
   </head>
   <body>
-    <div id="leftPanel" >
-        <form name="signinForm" >
-            <input id="Player"  name="YourName" type="text">
-            <input id="play" type="button" value="Play">
-          </form>
-        <div id ="userTable">
-          <div id="boxTittle"><h3>User Online</h3></div>
-          <div id="boxContent">
+    <div id='wrapAll'>
+          <div id="leftPanel" >
+              <form id='loginForm' name="signinForm" >
+                  <input id="Player"  name="YourName" type="text">
+                  <input id="play" type="button" value="Login">
+                </form>
+              <div id ="userTable">
+                <div id="boxTittle"><h3>User Online</h3></div>
+                <div id="boxContent">
 
 
-                      
+                            
+                  </div>
+              </div>
+          </div>
+          <div id="container">
+            
             </div>
-        </div>
-    </div>
-    
-    <div id="container">
-      
-    </div>
+          <div id="rightPanel" >
+                
+                <div id="sayHi">
+                    Hello <span id="currentUser">Teo</span>
+                    <input type="button" id="btnLogout" value="Logout">
+                </div>
+                <div id="listMessage">
+
+                </div>
+
+                <input type="text" id="txtMessage">    
+                <input type="button" id="btnSend" value="Send">
+              
+          </div>
+          
+          
+  </div>
     <script src="client2.js"></script>
   </body>
 </html>

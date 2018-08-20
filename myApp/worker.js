@@ -27,16 +27,18 @@ class Worker extends SCWorker {
 
     httpServer.on('request', app);
 
+    var Store = {};
+
     var userNames = [];   // chua username
-    
-    
     
 
     /*
       In here we handle our incoming realtime connections and listen for events.-----------------------------------------------
     */
     scServer.on('connection', function (socket) {
-
+        // socket.on('Challenge',(data)=> {
+        //     socket.emit( "askFromA",{name : data.playerA})
+        // })
                 let moveCounter = 0;
                 // LOGIC start from here -----------------------------------------------------------------------------------------
                 var originPieces ={WhiteKing:{type:"King",color:"white",src:"chess_pieces/wk.svg",originX:3,originY:7,x:3,y:7},WhiteQueen:{type:"Queen",color:"white",src:"chess_pieces/wq.svg",originX:4,originY:7,x:4,y:7},
@@ -345,27 +347,28 @@ class Worker extends SCWorker {
                 }
                 var possibleMoves = (data) => {
                     let moves=[];
-                    if(originPieces[data.name].type==="Pawn") {
-                        moves=checkPawnMoves(data);
-                        
-                    }
-                    else if(originPieces[data.name].type==="Rook") {
-                        moves=checkRookMoves(data);
-                    }
-                    else if(originPieces[data.name].type==="Knight") {
-                        moves=checkKnightMoves(data);
-                    }
-                    else if(originPieces[data.name].type==="Bishop") {
-                        moves=checkBishopMoves(data);
-                    }
-                    else if(originPieces[data.name].type==="Queen") {
-                        moves=checkQueenMoves(data);
-                    }
-                    else if(originPieces[data.name].type==="King") {
-                        moves=checkKingMoves(data);
-                    }
-                    else {console.log("wrong name");
-                    }
+                    if(originPieces[data.name])
+                        {if(originPieces[data.name].type==="Pawn") {
+                            moves=checkPawnMoves(data);
+                            
+                        }
+                        else if(originPieces[data.name].type==="Rook") {
+                            moves=checkRookMoves(data);
+                        }
+                        else if(originPieces[data.name].type==="Knight") {
+                            moves=checkKnightMoves(data);
+                        }
+                        else if(originPieces[data.name].type==="Bishop") {
+                            moves=checkBishopMoves(data);
+                        }
+                        else if(originPieces[data.name].type==="Queen") {
+                            moves=checkQueenMoves(data);
+                        }
+                        else if(originPieces[data.name].type==="King") {
+                            moves=checkKingMoves(data);
+                        }
+                        else {console.log("wrong name");
+                        }}
                     return moves;
                 }
                 var legalCheck = (data) => {
@@ -373,6 +376,10 @@ class Worker extends SCWorker {
                     
                     for(let m = 0; m<moves.length ; m++) {
                     if(data.nextX===moves[m][0] && data.nextY===moves[m][1] ) {
+                        let c = boardCells[`C${data.nextX}${data.nextY}`].data;
+                        if(c.color && c.color !== data.color) {
+                            delete originPieces[`${c.name}`];
+                        }
                         originPieces[data.name].x=data.nextX;
                         originPieces[data.name].y=data.nextY;
                         boardCells[`C${data.x}${data.y}`].data = 0;
@@ -387,6 +394,8 @@ class Worker extends SCWorker {
 
 
                 socket.on('validateUser', function (data, res) {
+                    console.log(socket);
+                    
 
                     // socket.on("logout", function () {
                     //     userNames.splice(userNames.indexOf(data), 1);
@@ -394,15 +403,40 @@ class Worker extends SCWorker {
                 
                     // });
                     // ...
+                    // socket.on('sampleClientEvent', function (data) {
+                    //     count++;
+                    //     console.log('Handled sampleClientEvent', data);
+                    //     scServer.exchange.publish('sample', count);
+                    //   });
                     
                     if (data) {
                         if(userNames.indexOf(data) < 0 )
                         {       
                                 userNames.push(data.trim());
-                                socket.Username = data;
+                                scServer.exchange.publish('usersChannel', userNames);
+                                socket.Username = data; // tao username : data vao trong obj socket
+                                
+                                // socket.on('Challenge', function (data,res) {
+                                //     if(data) {
+                                //         console.log(data);
+                                //         scServer.exchange.publish('challenging', data);
+
+                                //     }
+                                //     else{
+                                //     var err = 'Failed to connect' ;
+                                //     res(err)
+                                //     }
+                                // });
+
+                                
+                                 
+                                socket.on("logout", function (data,res) {
+                                    userNames.splice(userNames.indexOf(socket.Username), 1);
+                                    scServer.exchange.publish('usersChannel', userNames);
+                                });
                                 makeNewGame();
                                 boardCells=originBoardCells;
-                                res(null, 'Success');
+                                res(null, {status :'Success', data : userNames});
 
                                 socket.on('picked', function (data,res) {
                                     if(data) {
