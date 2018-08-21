@@ -27,8 +27,6 @@ class Worker extends SCWorker {
 
     httpServer.on('request', app);
 
-    var Store = {};
-
     var userNames = [];   // chua username
     
 
@@ -372,21 +370,29 @@ class Worker extends SCWorker {
                     return moves;
                 }
                 var legalCheck = (data) => {
-                    let moves = possibleMoves(data);
-                    
+                    let moves
+                    if ( moveCounter%2 ===0 && data.color==='white' )
+                        {moves = possibleMoves(data);}
+                    else if ( moveCounter%2 ===1 && data.color==='black' )
+                        {moves = possibleMoves(data);}
+                    else { moves = [] };
                     for(let m = 0; m<moves.length ; m++) {
-                    if(data.nextX===moves[m][0] && data.nextY===moves[m][1] ) {
-                        let c = boardCells[`C${data.nextX}${data.nextY}`].data;
-                        if(c.color && c.color !== data.color) {
-                            delete originPieces[`${c.name}`];
+                        if(data.nextX===moves[m][0] && data.nextY===moves[m][1] ) {
+                            let c = boardCells[`C${data.nextX}${data.nextY}`].data;
+                            if(c.color && c.color !== data.color) {
+                                if (originPieces[`${c.name}`].type==='King') {
+                                    // game over
+                                }
+                                delete originPieces[`${c.name}`];
+                            }
+                            originPieces[data.name].x=data.nextX;
+                            originPieces[data.name].y=data.nextY;
+                            boardCells[`C${data.x}${data.y}`].data = 0;
+                            boardCells[`C${data.nextX}${data.nextY}`].data = { color : data.color, name :data.name }  ; // data: { color:"black",name: "BlackKing" } }
+                            moveCounter+=1;
+                            return true;
+                            break;
                         }
-                        originPieces[data.name].x=data.nextX;
-                        originPieces[data.name].y=data.nextY;
-                        boardCells[`C${data.x}${data.y}`].data = 0;
-                        boardCells[`C${data.nextX}${data.nextY}`].data = { color : data.color, name :data.name }  ; // data: { color:"black",name: "BlackKing" } }
-                        return true;
-                        break;
-                    }
                     }
                     return false;
             
